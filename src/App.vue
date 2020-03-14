@@ -1,17 +1,83 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <BarChart 
+      :data="data"
+      xField="key"
+      yField="a"/>
+    <BarChart
+      :data="data"
+      xField="key"
+      yField="b"/>
+    <BarChart
+      :data="data"
+      xField="key"
+      yField="c"/>
+    <button @click="changeData">Change Data</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BarChart from './components/BarChart.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    BarChart
+  },
+
+  data() {
+    return {
+      data: [
+        {
+          key: "Java",
+          a: 5,
+          b: 12,
+          c: 10
+        },
+        {
+          key: "Vue",
+          a: 3,
+          b: 8,
+          c: 6
+        },
+        {
+          key: "React",
+          a: 15,
+          b: 3,
+          c: 7
+        },
+        {
+          key: "C#",
+          a: 5,
+          b: 16,
+          c: 10
+        },
+        {
+          key: "Angular",
+          a: 6,
+          b: 24,
+          c: 20
+        },
+        {
+          key: "Python",
+          a: 6,
+          b: 4,
+          c: 3
+        },
+      ],
+    }
+  },
+
+  methods: {
+    changeData() {
+      this.data.forEach(d => {
+        d.a = Math.floor(Math.random() * (30 + 1));
+        d.b = Math.floor(Math.random() * (35 + 1));
+        d.c = Math.floor(Math.random() * (40 + 1));
+      })
+      console.log(this.data);
+      
+    }
   }
 }
 </script>
