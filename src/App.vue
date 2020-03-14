@@ -75,10 +75,9 @@ export default {
         d.b = Math.floor(Math.random() * (35 + 1));
         d.c = Math.floor(Math.random() * (40 + 1));
       })
-      console.log(this.data);
-      
     }
-  }
+  },
+
 }
 </script>
 
