@@ -142,26 +142,22 @@ export default {
     },
 
     drawGridLines(x, y) {
-      this.svg.append('g')			
-          .attr('class', 'grid')
+      let xGrid = this.svg.append('g')			
+          .attr('class', 'x grid')
           .attr('transform', 'translate(0,' + this.heightComp + ')')
           .call(this.xGridLines(x)
               .tickSize(-this.heightComp)
-              .tickFormat(''))
-          .selectAll('line')
-          .attr('stroke', 'lightgrey')
-          .attr('stroke-opacity', '0.7')
-          .attr('shape-rendering', 'crispEdges');
+              .tickFormat(''));
+      this.applyStyleToGridLines(xGrid);
           
-      this.svg.append('g')			
-          .attr('class', 'grid')
+      let yGrid = this.svg.append('g')			
+          .attr('class', 'y grid')
           .call(this.yGridLines(y)
               .tickSize(-this.widthComp)
-              .tickFormat(''))
-          .selectAll('line')
-          .attr('stroke', 'lightgrey')
-          .attr('stroke-opacity', '0.7')
-          .attr('shape-rendering', 'crispEdges');
+              .tickFormat(''));
+
+      this.applyStyleToGridLines(yGrid);
+
 
         // delete extarnal borders
         this.svg.selectAll('.grid')
@@ -175,6 +171,13 @@ export default {
 
     yGridLines(y) {
       return d3.axisLeft(y).ticks();
+    },
+
+    applyStyleToGridLines(d3Element) {
+      d3Element.selectAll('line')
+          .attr('stroke', 'lightgrey')
+          .attr('stroke-opacity', '0.7')
+          .attr('shape-rendering', 'crispEdges');
     },
 
     createBars(x, y) {
@@ -222,8 +225,23 @@ export default {
         .transition()
         .duration(750)
         .call(d3.axisBottom(x));
-        
-      // TODO update grid
+
+      let yGrid = this.svg.selectAll('.y.grid')
+        .transition()
+        .duration(750)
+        .call(this.yGridLines(y)
+        .tickSize(-this.widthComp)
+              .tickFormat(''));
+      this.applyStyleToGridLines(yGrid);
+
+      let xGrid = this.svg.selectAll('.x.grid')
+        .transition()
+        .duration(750)
+        .call(this.xGridLines(x)
+              .tickSize(-this.heightComp)
+              .tickFormat(''));
+      this.applyStyleToGridLines(xGrid);
+       
       this.animate(x, y);
     }
   },
