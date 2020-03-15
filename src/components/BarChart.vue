@@ -187,6 +187,7 @@ export default {
       .data(this.data)
       .enter()
       .append('rect')
+      .attr('class', 'bar')
       .attr('x', (d) => {return x(d[this.xField]);})
       .attr('width', x.bandwidth())
       .attr('fill', this.barColor + '90')
@@ -217,6 +218,7 @@ export default {
       let x = this.getXAxis();
       let y = this.getYAxis();
 
+      //update axis
       this.svg.select('.y.axis')
         .transition()
         .duration(750)
@@ -226,6 +228,7 @@ export default {
         .duration(750)
         .call(d3.axisBottom(x));
 
+      // update grid lines
       let yGrid = this.svg.selectAll('.y.grid')
         .transition()
         .duration(750)
@@ -242,7 +245,12 @@ export default {
               .tickFormat(''));
       this.applyStyleToGridLines(xGrid);
        
-      this.animate(x, y);
+
+      // remove bars and redraw them.. can be improved
+      this.svg.selectAll('rect').remove();
+      this.createBars(x, y);
+
+
     }
   },
 };
